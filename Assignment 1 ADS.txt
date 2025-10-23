@@ -1,0 +1,128 @@
+NAME : CHETTI RISHIKA
+
+DATE : 17 OCTOBER 2025 M.TECH (CSE)
+
+HTNO : 2503B05121
+
+ADS ASSIGNMENT - 1
+
+(a) Use Python (statsmodels) to fit model and compare. (b) Interpret results (positive/negative slope, accuracy)
+
+# statsmodels OLS example
+import statsmodels.api as sm
+
+X = [10,12,14,16,18,20,22,24,26,28]
+Y = [300,310,320,330,345,360,370,390,420,450]
+
+# Make X a 2D array and add constant for intercept
+X_with_const = sm.add_constant(X)  # adds the column of 1s
+
+model = sm.OLS(Y, X_with_const).fit()
+print(model.summary())
+
+# Retrieve intercept and slope
+a = model.params[0]   # intercept
+b = model.params[1]   # slope
+print(f"Intercept a = {a:.6f}")
+print(f"Slope b = {b:.6f}")
+print(f"R-squared = {model.rsquared:.6f}")
+
+                                         OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.955
+Model:                            OLS   Adj. R-squared:                  0.950
+Method:                 Least Squares   F-statistic:                     171.6
+Date:                Wed, 22 Oct 2025   Prob (F-statistic):           1.10e-06
+Time:                        05:55:03   Log-Likelihood:                -37.005
+No. Observations:                  10   AIC:                             78.01
+Df Residuals:                       8   BIC:                             78.61
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const        209.5152     11.962     17.515      0.000     181.931     237.100
+x1             7.8939      0.603     13.099      0.000       6.504       9.284
+==============================================================================
+Omnibus:                        1.026   Durbin-Watson:                   0.581
+Prob(Omnibus):                  0.599   Jarque-Bera (JB):                0.781
+Skew:                           0.568   Prob(JB):                        0.677
+Kurtosis:                       2.236   Cond. No.                         68.7
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+Intercept a = 209.515152
+Slope b = 7.893939
+R-squared = 0.955452
+
+
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+X = np.array([10,12,14,16,18,20,22,24,26,28]).reshape(-1,1)
+Y = np.array([300,310,320,330,345,360,370,390,420,450])
+
+model = LinearRegression().fit(X, Y)
+a = model.intercept_
+b = model.coef_[0]
+r2 = model.score(X, Y)  # R^2
+
+print("Intercept a =", round(a,6))
+print("Slope b =", round(b,6))
+print("R^2 =", round(r2,6))
+     
+Intercept a = 209.515152
+Slope b = 7.893939
+R^2 = 0.955452
+3. Using Python, perform Linear Regression on the dataset attached in excel format.
+
+import pandas as pd
+import statsmodels.api as sm
+
+# Load the Excel file
+df = pd.read_excel('/Experience_Salary.xlsx')
+
+# Define X and Y
+X = df['Experience_Years']
+Y = df['Salary_USD']
+
+# Add constant for intercept
+X_with_const = sm.add_constant(X)
+
+# Fit the model
+model = sm.OLS(Y, X_with_const).fit()
+print(model.summary())
+
+# Print coefficients correctly
+print("Intercept a =", model.params['const'])
+print("Slope b =", model.params['Experience_Years'])
+print("R^2 =", model.rsquared)
+     OLS Regression Results                            
+==============================================================================
+Dep. Variable:             Salary_USD   R-squared:                       0.999
+Model:                            OLS   Adj. R-squared:                  0.999
+Method:                 Least Squares   F-statistic:                     9821.
+Date:                Wed, 22 Oct 2025   Prob (F-statistic):           4.21e-20
+Time:                        05:56:49   Log-Likelihood:                -112.51
+No. Observations:                  15   AIC:                             229.0
+Df Residuals:                      13   BIC:                             230.4
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+====================================================================================
+                       coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------------
+const             3.118e+04    255.578    122.002      0.000    3.06e+04    3.17e+04
+Experience_Years  2785.7143     28.110     99.101      0.000    2724.987    2846.442
+==============================================================================
+Omnibus:                        1.992   Durbin-Watson:                   1.018
+Prob(Omnibus):                  0.369   Jarque-Bera (JB):                0.948
+Skew:                           0.616   Prob(JB):                        0.623
+Kurtosis:                       3.018   Cond. No.                         19.3
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+Intercept a = 31180.95238095239
+Slope b = 2785.7142857142867
+R^2 = 0.998678059285977
